@@ -24,6 +24,7 @@
 #define PIDFD_INFO_COREDUMP		(1UL << 4) /* Only returned if requested. */
 
 #define PIDFD_INFO_SIZE_VER0		64 /* sizeof first published struct */
+#define PIDFD_INFO_SIZE_VER1		72 /* sizeof second published struct */
 
 /*
  * Values for @coredump_mask in pidfd_info.
@@ -37,21 +38,6 @@
 #define PIDFD_COREDUMP_SKIP	(1U << 1) /* coredumping generation was skipped. */
 #define PIDFD_COREDUMP_USER	(1U << 2) /* coredump was done as the user. */
 #define PIDFD_COREDUMP_ROOT	(1U << 3) /* coredump was done as root. */
-
-/*
- * The concept of process and threads in userland and the kernel is a confusing
- * one - within the kernel every thread is a 'task' with its own individual PID,
- * however from userland's point of view threads are grouped by a single PID,
- * which is that of the 'thread group leader', typically the first thread
- * spawned.
- *
- * To cut the Gideon knot, for internal kernel usage, we refer to
- * PIDFD_SELF_THREAD to refer to the current thread (or task from a kernel
- * perspective), and PIDFD_SELF_THREAD_GROUP to refer to the current thread
- * group leader...
- */
-#define PIDFD_SELF_THREAD		-10000 /* Current thread. */
-#define PIDFD_SELF_THREAD_GROUP		-20000 /* Current thread group leader. */
 
 /*
  * ...and for userland we make life simpler - PIDFD_SELF refers to the current
